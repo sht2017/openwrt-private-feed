@@ -24,12 +24,20 @@ for source in package_list:
                 continue
             if remote.exists():
                 local.parent.mkdir(parents=True, exist_ok=True)
-                shutil.rmtree(local, ignore_errors=True)
-                shutil.copytree(
-                    remote,
-                    local,
-                    dirs_exist_ok=True,
-                )
-                print(f"Updated {local} from {source['remote']}")
+                if remote.is_file():
+                    local.unlink(missing_ok=True)
+                    shutil.copy2(remote, local)
+                    print(f"[file] Updated {local} from {source['remote']}")
+                    continue
+                if remote.is_dir():
+                    shutil.rmtree(local, ignore_errors=True)
+                    shutil.copytree(
+                        remote,
+                        local,
+                        dirs_exist_ok=True,
+                    )
+                    print(f"[dir] Updated {local} from {source['remote']}")
+                    continue
+                print(f"Unknown type for {remote}, skipping")
             else:
                 print(f"Package {package} not found in {source['remote']}")

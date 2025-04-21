@@ -3,6 +3,10 @@
         "remote": "https://github.com/coolsnowwolf/luci.git",
         "packages": [
             {
+                "remote": "luci.mk",
+                "local": "luci/luci.mk"
+            },
+            {
                 "remote": "applications/luci-app-vlmcsd",
                 "local": "luci/applications/luci-app-vlmcsd"
             }
