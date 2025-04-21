@@ -12,8 +12,9 @@ with open("package_list.json", "r", encoding="utf-8") as f:
 for source in package_list:
     with tempfile.TemporaryDirectory() as temp_dir:
         subprocess.run(
-            f"git clone --depth=1 {f"--branch {source["branch"]} " if "branch" in source else ""}{source["remote"]} {temp_dir}",
+            f"git clone --depth=1 {f'--branch {source["branch"]} ' if 'branch' in source else ''}{source['remote']} {temp_dir}",
             check=True,
+            shell=True,
         )
         for package in source["packages"]:
             remote = Path(temp_dir) / package["remote"]
