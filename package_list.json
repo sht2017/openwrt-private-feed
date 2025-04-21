@@ -1,0 +1,15 @@
+[
+    {
+        "remote": "https://github.com/coolsnowwolf/luci.git",
+        "packages": [
+            {
+                "remote": "applications/luci-app-vlmcsd",
+                "local": "luci/applications/luci-app-vlmcsd"
+            }
+        ]
+    },
+    {
+        "remote": "https://github.com/coolsnowwolf/packages.git",
+        "packages": [{ "remote": "net/vlmcsd", "local": "packages/net/vlmcsd" }]
+    }
+]

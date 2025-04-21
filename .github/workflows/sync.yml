@@ -1,0 +1,34 @@
+name: Sync Packages
+
+on:
+    schedule:
+        - cron: "0 0 * * *"
+    workflow_dispatch:
+
+jobs:
+    run-sync:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+
+            - name: Run sync_packages.py
+              run: python sync.py
+
+            - name: Commit & Push if changes detected
+              run: |
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                  git add -A
+                  if ! git diff --cached --quiet; then
+                    git commit -m "🤖 Auto-sync packages on $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+                    git push
+                  else
+                    echo "No changes to commit."
+                  fi
